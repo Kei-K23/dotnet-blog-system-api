@@ -8,7 +8,7 @@ namespace BlogSystemAPI.Mapping
     {
         public AutoMapping()
         {
-            CreateMap<CreateBlogDto, Blog>();
+            CreateMap<RequestBlogDto, Blog>();
         }
     }
 }

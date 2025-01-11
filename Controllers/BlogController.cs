@@ -13,7 +13,7 @@ namespace BlogSystemAPI.Controllers
         private readonly IBlogService _blogService = blogService;
         private readonly IMapper _mapper = mapper;
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult> GetBlog(Guid id)
         {
             var blog = await _blogService.GetByIdAsync(id);
@@ -21,8 +21,15 @@ namespace BlogSystemAPI.Controllers
             return Ok(blog);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAllBlogs()
+        {
+            var blogs = await _blogService.GetAllAsync();
+            return Ok(blogs);
+        }
+
         [HttpPost]
-        public async Task<ActionResult> CreateBlog(CreateBlogDto blogDto)
+        public async Task<ActionResult> CreateBlog(RequestBlogDto blogDto)
         {
             if (!ModelState.IsValid)
             {
@@ -32,6 +39,42 @@ namespace BlogSystemAPI.Controllers
             await _blogService.AddAsync(blog);
 
             return CreatedAtAction(nameof(GetBlog), new { id = blog.Id }, blog);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> UpdateBlog(Guid id, RequestBlogDto blogDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isBlogExist = await _blogService.GetByIdAsync(id);
+            if (isBlogExist == null) return NotFound();
+
+            var blog = _mapper.Map<Blog>(blogDto);
+            blog.Id = id;
+            blog.UpdatedAt = DateTime.UtcNow;
+
+            await _blogService.UpdateAsync(blog);
+
+            return CreatedAtAction(nameof(GetBlog), new { id = blog.Id }, blog);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteBlog(Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isBlogExist = await _blogService.GetByIdAsync(id);
+            if (isBlogExist == null) return NotFound();
+
+            await _blogService.DeleteAsync(id);
+
+            return NoContent();
         }
     }
 }
