@@ -1,3 +1,5 @@
+using AutoMapper;
+using BlogSystemAPI.Dtos;
 using BlogSystemAPI.Interfaces;
 using BlogSystemAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +8,10 @@ namespace BlogSystemAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BlogController(IBlogService blogService) : ControllerBase
+    public class BlogController(IBlogService blogService, IMapper mapper) : ControllerBase
     {
         private readonly IBlogService _blogService = blogService;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
         public async Task<ActionResult> GetBlog(Guid id)
@@ -19,10 +22,16 @@ namespace BlogSystemAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateBlog(Blog entity)
+        public async Task<ActionResult> CreateBlog(CreateBlogDto blogDto)
         {
-            await _blogService.AddAsync(entity);
-            return CreatedAtAction(nameof(GetBlog), new { id = entity.Id }, entity);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var blog = _mapper.Map<Blog>(blogDto);
+            await _blogService.AddAsync(blog);
+
+            return CreatedAtAction(nameof(GetBlog), new { id = blog.Id }, blog);
         }
     }
 }
