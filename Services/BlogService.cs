@@ -1,12 +1,13 @@
+using BlogSystemAPI.Data;
+using BlogSystemAPI.Interfaces;
 using BlogSystemAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogSystemAPI.Services
 {
-    public class BlogService(DbContext context) : GeneralOperations<Blog>(context)
+    public class BlogService(AppDbContext context) : GeneralOperations<Blog>(context), IBlogService
     {
-        private readonly DbContext _context = context;
-
+        private readonly AppDbContext _context = context;
         // Implement other service methods
     }
 }

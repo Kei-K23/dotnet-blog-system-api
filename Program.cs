@@ -1,3 +1,7 @@
+using BlogSystemAPI.Data;
+using BlogSystemAPI.Interfaces;
+using BlogSystemAPI.Services;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
+
+
+// Register DB Context
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add services to DI
+builder.Services.AddScoped(typeof(IGeneralOperations<>), typeof(GeneralOperations<>));
+builder.Services.AddScoped<IBlogService, BlogService>();
 
 var app = builder.Build();
 

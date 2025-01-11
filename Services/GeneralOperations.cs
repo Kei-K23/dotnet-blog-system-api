@@ -1,11 +1,12 @@
+using BlogSystemAPI.Data;
 using BlogSystemAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogSystemAPI.Services
 {
-    public class GeneralOperations<T>(DbContext dbContext) : IGeneralOperations<T> where T : class
+    public class GeneralOperations<T>(AppDbContext dbContext) : IGeneralOperations<T> where T : class
     {
-        private readonly DbContext _dbContext = dbContext;
+        private readonly AppDbContext _dbContext = dbContext;
         private readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
         public async Task AddAsync(T entity)
