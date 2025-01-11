@@ -20,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder
 // Add services to DI
 builder.Services.AddScoped(typeof(IGeneralOperations<>), typeof(GeneralOperations<>));
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
 // Add Authentication and Authorization
 builder.Services.AddAuthentication(options =>

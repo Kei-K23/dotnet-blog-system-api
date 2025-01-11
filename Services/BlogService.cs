@@ -1,7 +1,6 @@
 using BlogSystemAPI.Data;
 using BlogSystemAPI.Interfaces;
 using BlogSystemAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlogSystemAPI.Services
 {

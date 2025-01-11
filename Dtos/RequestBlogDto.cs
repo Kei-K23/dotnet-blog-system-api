@@ -10,6 +10,6 @@ namespace BlogSystemAPI.Dtos
 
         [Required]
         [MinLength(5)]
-        public string Description { get; set; }
+        public string Content { get; set; }
     }
 }
