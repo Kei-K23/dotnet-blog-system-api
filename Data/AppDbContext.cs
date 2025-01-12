@@ -9,10 +9,10 @@ namespace BlogSystemAPI.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // Configure Lazy loading
-            optionsBuilder.UseLazyLoadingProxies();
-        }
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // {
+        //     // Configure Lazy loading
+        //     optionsBuilder.UseLazyLoadingProxies();
+        // }
     }
 }

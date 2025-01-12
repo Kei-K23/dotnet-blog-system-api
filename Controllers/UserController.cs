@@ -28,6 +28,13 @@ namespace BlogSystemAPI.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{id}/blogs")]
+        public async Task<IActionResult> GetBlogsByUserId(Guid id)
+        {
+            var users = await _userService.GetBlogsByUserId(id);
+            return Ok(users);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserRequestDto userRequestDto)
         {
