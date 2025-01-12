@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogSystemAPI.Models
 {
@@ -17,5 +18,10 @@ namespace BlogSystemAPI.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; }
+
+        [ForeignKey("User")]
+        public Guid UserId { get; set; }
+
+        public virtual User User { get; set; } = null!;
     }
 }

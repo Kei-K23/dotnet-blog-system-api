@@ -11,5 +11,8 @@ namespace BlogSystemAPI.Dtos
         [Required]
         [MinLength(5)]
         public string Content { get; set; }
+
+        [Required]
+        public Guid UserId { get; set; }
     }
 }

@@ -8,5 +8,11 @@ namespace BlogSystemAPI.Data
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<User> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Configure Lazy loading
+            optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 }
