@@ -21,7 +21,6 @@ namespace BlogSystemAPI.Models
 
         [ForeignKey("User")]
         public Guid UserId { get; set; }
-
         public virtual User User { get; set; } = null!;
     }
 }
