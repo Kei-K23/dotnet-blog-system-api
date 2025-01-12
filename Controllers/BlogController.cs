@@ -35,10 +35,11 @@ namespace BlogSystemAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             var blog = _mapper.Map<Blog>(blogDto);
             await _blogService.AddAsync(blog);
 
-            return CreatedAtAction(nameof(GetBlog), new { id = blog.Id }, blog);
+            return CreatedAtAction(nameof(CreateBlog), new { id = blog.Id }, blog);
         }
 
         [HttpPatch("{id}")]

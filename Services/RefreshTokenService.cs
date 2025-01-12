@@ -9,9 +9,9 @@ namespace BlogSystemAPI.Services
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<bool> ValidateRefreshToken(string userId, string refreshToken)
+        public async Task<bool> ValidateRefreshToken(Guid userId, string refreshToken)
         {
-            var result = await _context.RefreshTokens.AsNoTracking().FirstAsync(rt => rt.UserId == userId);
+            var result = await _context.RefreshTokens.AsNoTracking().FirstOrDefaultAsync(rt => rt.UserId == userId);
             if (result == null || result.Token != refreshToken || result.ExpiryDate > DateTime.UtcNow)
             {
                 return false;
@@ -19,6 +19,9 @@ namespace BlogSystemAPI.Services
             return true;
         }
 
-        // Implement other service methods
+        public async Task<RefreshToken> GetByUserIdAsync(Guid userId)
+        {
+            return await _context.RefreshTokens.AsNoTracking().FirstOrDefaultAsync(rt => rt.UserId == userId);
+        }
     }
 }

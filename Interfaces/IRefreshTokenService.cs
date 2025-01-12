@@ -4,6 +4,7 @@ namespace BlogSystemAPI.Interfaces
 {
     public interface IRefreshTokenService : IGeneralOperations<RefreshToken>
     {
-        Task<bool> ValidateRefreshToken(string userId, string refreshToken);
+        Task<bool> ValidateRefreshToken(Guid userId, string refreshToken);
+        Task<RefreshToken> GetByUserIdAsync(Guid userId);
     }
 }

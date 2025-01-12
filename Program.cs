@@ -1,5 +1,6 @@
 using System.Text;
 using BlogSystemAPI.Data;
+using BlogSystemAPI.Helper;
 using BlogSystemAPI.Interfaces;
 using BlogSystemAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,6 +22,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder
 builder.Services.AddScoped(typeof(IGeneralOperations<>), typeof(GeneralOperations<>));
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<JwtHelper>();
 
 // Add Authentication and Authorization
 builder.Services.AddAuthentication(options =>

@@ -7,7 +7,7 @@ namespace BlogSystemAPI.Models
         [Key]
         public Guid Id { get; set; }
         public string Token { get; set; } = string.Empty;
-        public string UserId { get; set; } = string.Empty;
+        public Guid UserId { get; set; }
         public DateTime ExpiryDate { get; set; }
     }
 }
