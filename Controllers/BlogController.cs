@@ -29,7 +29,7 @@ namespace BlogSystemAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateBlog(RequestBlogDto blogDto)
+        public async Task<ActionResult> CreateBlog(BlogRequestDto blogDto)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +43,7 @@ namespace BlogSystemAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> UpdateBlog(Guid id, RequestBlogDto blogDto)
+        public async Task<ActionResult> UpdateBlog(Guid id, BlogRequestDto blogDto)
         {
             if (!ModelState.IsValid)
             {

@@ -18,16 +18,16 @@ namespace BlogSystemAPI.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequestDto registerRequestDto)
+        public async Task<IActionResult> Register(UserRequestDto userRequestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerRequestDto.Password);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userRequestDto.Password);
 
-            var newUser = _mapper.Map<User>(registerRequestDto);
+            var newUser = _mapper.Map<User>(userRequestDto);
             newUser.PasswordHash = hashedPassword;
 
             await _userService.AddAsync(newUser);

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlogSystemAPI.Dtos
 {
-    public class RegisterRequestDto
+    public class UserRequestDto
     {
         [Required]
         [MinLength(3)]
