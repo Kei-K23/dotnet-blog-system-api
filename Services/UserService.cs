@@ -4,9 +4,7 @@ using BlogSystemAPI.Models;
 
 namespace BlogSystemAPI.Services
 {
-    public class BlogService(AppDbContext context) : GeneralOperations<Blog>(context), IBlogService
+    public class UserService(AppDbContext context) : GeneralOperations<User>(context), IUserService
     {
-        private readonly AppDbContext _context = context;
-        // Implement other service methods
     }
 }
