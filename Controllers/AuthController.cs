@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using AutoMapper;
-using BCrypt.Net;
 using BlogSystemAPI.Dtos;
 using BlogSystemAPI.Helper;
 using BlogSystemAPI.Interfaces;
@@ -91,6 +90,36 @@ namespace BlogSystemAPI.Controllers
                 Token = token,
                 RefreshToken = newRefreshTokenKey
             });
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenRequestDto refreshTokenRequestDto)
+        {
+            if (await _refreshTokenService.ValidateRefreshToken(refreshTokenRequestDto.UserId, refreshTokenRequestDto.Token))
+            {
+                var user = await _userService.GetByIdAsync(refreshTokenRequestDto.UserId);
+                var claims = new List<Claim>
+                {
+                    new(ClaimTypes.Name, user.Username),
+                };
+
+                var token = _jwtHelper.GenerateToken(claims, DateTime.UtcNow.AddMinutes(15));
+
+                var newRefreshTokenKey = Guid.NewGuid().ToString();
+
+                var existingRT = await _refreshTokenService.GetByUserIdAsync(user.Id);
+                existingRT.Token = newRefreshTokenKey;
+                existingRT.ExpiryDate = DateTime.UtcNow.AddDays(7);
+                await _refreshTokenService.UpdateAsync(existingRT);
+
+                return Ok(new
+                {
+                    Token = token,
+                    RefreshToken = newRefreshTokenKey
+                });
+            }
+
+            return Unauthorized();
         }
     }
 }

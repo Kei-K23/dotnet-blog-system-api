@@ -12,7 +12,7 @@ namespace BlogSystemAPI.Services
         public async Task<bool> ValidateRefreshToken(Guid userId, string refreshToken)
         {
             var result = await _context.RefreshTokens.AsNoTracking().FirstOrDefaultAsync(rt => rt.UserId == userId);
-            if (result == null || result.Token != refreshToken || result.ExpiryDate > DateTime.UtcNow)
+            if (result == null || result.Token != refreshToken || result.ExpiryDate < DateTime.UtcNow)
             {
                 return false;
             }
