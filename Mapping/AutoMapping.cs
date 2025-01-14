@@ -10,6 +10,7 @@ namespace BlogSystemAPI.Mapping
         {
             CreateMap<BlogRequestDto, Blog>();
             CreateMap<UserRequestDto, User>();
+            CreateMap<CommentRequestDto, Comment>();
         }
     }
 }

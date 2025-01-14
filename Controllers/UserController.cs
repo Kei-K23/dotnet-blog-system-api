@@ -68,25 +68,25 @@ namespace BlogSystemAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var isUserExist = await _userService.GetByIdAsync(id);
-            if (isUserExist == null) return NotFound();
+            var existUser = await _userService.GetByIdAsync(id);
+            if (existUser == null) return NotFound();
 
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userRequestDto.Password);
 
-            var updateUser = _mapper.Map<User>(userRequestDto);
-            updateUser.Id = id;
-            updateUser.PasswordHash = hashedPassword;
-            updateUser.UpdatedAt = DateTime.UtcNow;
+            _mapper.Map(userRequestDto, existUser);
 
-            await _userService.UpdateAsync(updateUser);
+            existUser.PasswordHash = hashedPassword;
+            existUser.UpdatedAt = DateTime.UtcNow;
 
-            return CreatedAtAction(nameof(CreateUser), new { id = updateUser.Id }, new
+            await _userService.UpdateAsync(existUser);
+
+            return CreatedAtAction(nameof(UpdateUser), new { id = existUser.Id }, new
             {
-                updateUser.Id,
-                updateUser.Username,
-                updateUser.DisplayName,
-                updateUser.CreatedAt,
-                updateUser.UpdatedAt,
+                existUser.Id,
+                existUser.Username,
+                existUser.DisplayName,
+                existUser.CreatedAt,
+                existUser.UpdatedAt,
             });
         }
 

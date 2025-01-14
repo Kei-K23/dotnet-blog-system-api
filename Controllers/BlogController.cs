@@ -42,7 +42,7 @@ namespace BlogSystemAPI.Controllers
             return CreatedAtAction(nameof(CreateBlog), new { id = blog.Id }, blog);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBlog(Guid id, BlogRequestDto blogDto)
         {
             if (!ModelState.IsValid)
@@ -50,16 +50,16 @@ namespace BlogSystemAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var isBlogExist = await _blogService.GetByIdAsync(id);
-            if (isBlogExist == null) return NotFound();
+            var existingBlog = await _blogService.GetByIdAsync(id);
+            if (existingBlog == null) return NotFound();
 
-            var blog = _mapper.Map<Blog>(blogDto);
-            blog.Id = id;
-            blog.UpdatedAt = DateTime.UtcNow;
 
-            await _blogService.UpdateAsync(blog);
+            _mapper.Map(blogDto, existingBlog);
+            existingBlog.UpdatedAt = DateTime.UtcNow;
 
-            return CreatedAtAction(nameof(GetBlog), new { id = blog.Id }, blog);
+            await _blogService.UpdateAsync(existingBlog);
+
+            return CreatedAtAction(nameof(UpdateBlog), new { id = existingBlog.Id }, existingBlog);
         }
 
         [HttpDelete("{id}")]
