@@ -9,6 +9,12 @@ namespace BlogSystemAPI.Services
     {
         private readonly AppDbContext _context = context;
 
+        public IEnumerable<Like> GetAllLikesByUserId(Guid userId)
+        {
+            var likes = _context.Likes.Where(l => l.UserId == userId).OrderByDescending(l => l.CreatedAt).ToList();
+            return likes;
+        }
+
         public async Task ToggleLike(Guid userId, Guid blogId)
         {
             var result = await _context.Likes.AsNoTracking().FirstOrDefaultAsync(l =>

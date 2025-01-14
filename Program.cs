@@ -23,6 +23,7 @@ builder.Services.AddScoped(typeof(IGeneralOperations<>), typeof(GeneralOperation
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddSingleton<JwtHelper>();
 
 // Add Authentication and Authorization
